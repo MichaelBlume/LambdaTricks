@@ -1,11 +1,12 @@
 {-# LANGUAGE RankNTypes #-}
-module Number ( Number(), fromChurch, toChurch, zero, plusOne, plus, times
-              , expo, minus, equal
+module Number ( Number(), composeN, fromChurch, toChurch, zero, plusOne, plus
+              , times, expo, minus, equal
               ) where
 
 import Boolean
 
 data Number = Number (forall x. (x -> x) -> x -> x)
+composeN (Number n) = n
 
 fromChurch (Number n) = n (+1) 0
 toChurch 0 = zero
@@ -30,7 +31,7 @@ expo (Number b) (Number e) = Number $ e b
 type NumExtractor = Number -> Boolean -> Number
 
 plusOneMaybe :: NumExtractor -> NumExtractor
-plusOneMaybe f n (Boolean b) = f (b (plusOne n) n) true
+plusOneMaybe f n b = f (switch b (plusOne n) n) true
 
 minusOne :: Number -> Number
 minusOne (Number n) = n plusOneMaybe const zero false

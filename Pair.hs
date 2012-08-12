@@ -1,5 +1,5 @@
 {-# LANGUAGE RankNTypes #-}
-module Pair where
+module Pair (Pair(), cons, car, cdr) where
 
 data Pair a b = Pair (forall c. (a -> b -> c) -> c)
 

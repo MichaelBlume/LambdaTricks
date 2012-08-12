@@ -1,5 +1,7 @@
 {-# LANGUAGE RankNTypes #-}
-module Boolean where
+module Boolean (Boolean(), true, false, switch, fromBoolean, and, or, not) where
+
+import Prelude hiding (and, or, not)
 
 data Boolean = Boolean (forall x. x -> x -> x)
 true :: Boolean
