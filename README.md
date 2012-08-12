@@ -1,0 +1,4 @@
+LambdaTricks
+============
+
+Stupid Lambda Tricks!
