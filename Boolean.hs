@@ -3,10 +3,10 @@ module Boolean where
 
 data Boolean = Boolean (forall x. x -> x -> x)
 true :: Boolean
-true = Boolean $ \a b -> a
+true = Boolean const
 
 false :: Boolean
-false = Boolean $ \a b -> b
+false = Boolean $ \_ b -> b
 
 switch (Boolean b) = b
 
@@ -20,7 +20,7 @@ and :: Boolean -> Boolean -> Boolean
 and (Boolean a) b = a b false
 
 or :: Boolean -> Boolean -> Boolean
-or (Boolean a) b = a true b
+or (Boolean a) = a true
 
 not :: Boolean -> Boolean
 not (Boolean a) = a false true

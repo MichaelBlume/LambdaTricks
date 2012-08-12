@@ -15,7 +15,7 @@ instance Show Number where
   show = show . fromChurch
 
 zero :: Number
-zero = Number $ \f -> id
+zero = Number $ const id
 
 plusOne :: Number -> Number
 plusOne (Number n) = Number $ \f -> f . n f
@@ -33,7 +33,7 @@ plusOneMaybe :: NumExtractor -> NumExtractor
 plusOneMaybe f n (Boolean b) = f (b (plusOne n) n) true
 
 minusOne :: Number -> Number
-minusOne (Number n) = n plusOneMaybe (\n b -> n) zero false
+minusOne (Number n) = n plusOneMaybe const zero false
 
 
 -- Really max(0, a - b), use at your own risk
@@ -41,7 +41,7 @@ minus :: Number -> Number -> Number
 minus a (Number b) = b minusOne a
 
 equalZero :: Number -> Boolean
-equalZero (Number n) = n (\b -> false) true
+equalZero (Number n) = n (const false) true
 
 equal :: Number -> Number -> Boolean
 equal a b = equalZero $ plus (minus a b) (minus b a)
