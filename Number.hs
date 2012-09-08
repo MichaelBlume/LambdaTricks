@@ -1,9 +1,10 @@
 {-# LANGUAGE RankNTypes #-}
 module Number ( Number(), composeN, fromChurch, toChurch, zero, plusOne, plus
-              , times, expo, minus, equal
+              , times, expo, minus, equal, div, mod,
               ) where
 
 import Boolean
+import Prelude hiding (div, mod)
 
 data Number = Number (forall x. (x -> x) -> x -> x)
 composeN (Number n) = n
@@ -46,3 +47,16 @@ equalZero (Number n) = n (const false) true
 
 equal :: Number -> Number -> Boolean
 equal a b = equalZero $ plus (minus a b) (minus b a)
+
+apply x f = f x
+
+addMod base f quot rem = apply (plusOne rem) $ \rem' -> switch (equal rem' base) (f (plusOne quot) zero) (f quot rem')
+
+getDiv :: (Number -> Number -> x) -> Number -> Number -> x
+getDiv f (Number num) div = num (addMod div) f zero zero
+
+div :: Number -> Number -> Number
+div = getDiv const
+
+mod :: Number -> Number -> Number
+mod = getDiv $ \_ x -> x
