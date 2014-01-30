@@ -23,7 +23,7 @@ plusOne :: Number -> Number
 plusOne (Number n) = Number $ \f -> f . n f
 
 plus :: Number -> Number -> Number
-plus (Number n) (Number m) = n plusOne . m plusOne $ zero
+plus (Number n) (Number m) = Number $ \f -> n f . m f
 
 times (Number n) (Number m) = Number $ \f -> n $ m f
 
