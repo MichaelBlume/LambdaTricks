@@ -25,7 +25,7 @@ plusOne (Number n) = Number $ \f -> f . n f
 plus :: Number -> Number -> Number
 plus (Number n) (Number m) = Number $ \f -> n f . m f
 
-times (Number n) (Number m) = Number $ \f -> n $ m f
+times (Number n) (Number m) = Number $ n . m
 
 expo (Number b) (Number e) = Number $ e b
 
