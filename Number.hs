@@ -4,6 +4,7 @@ module Number ( Number(), composeN, fromChurch, toChurch, zero, plusOne, plus
               ) where
 
 import Boolean
+import Pair
 import Prelude hiding (div, mod)
 
 data Number = Number (forall x. (x -> x) -> x -> x)
@@ -34,8 +35,12 @@ type NumExtractor = Number -> Boolean -> Number
 plusOneMaybe :: NumExtractor -> NumExtractor
 plusOneMaybe f n b = f (switch b (plusOne n) n) true
 
+plusOneMaybe' :: Pair Boolean Number -> Pair Boolean Number
+plusOneMaybe' p = cons true $ switch (car p) (plusOne (cdr p)) (cdr p)
+
 minusOne :: Number -> Number
-minusOne (Number n) = n plusOneMaybe const zero false
+--minusOne (Number n) = n plusOneMaybe const zero false
+minusOne (Number n) = cdr $ n plusOneMaybe' $ cons false zero
 
 
 -- Really max(0, a - b), use at your own risk
